@@ -3,12 +3,13 @@
 int bank(int *money);
 int swap(int *a, int *b);
 int add_number(int *arr);
-int print_arr(int *arr);
+int print_arr(int (*arr)[3]);
 int max_number(int (*arr)[3]);
 int print_arr_desc(int (*arr)[3]);
-int* remove_max(int (*arr)[3]);
+int (*remove_max(int (*arr)[3]))[3];
 
 int main() {
+    /* 외부 변수를 함수 안에서 변경하기  */
     printf("이자 받기 \n");
     int money = 10000;
     printf("입금 전 money: %d \n", money);
@@ -22,15 +23,17 @@ int main() {
     swap(&my_money, &your_money);
     printf("[교환 후] my_money : %d, your money : %d \n", my_money, your_money);
 
+    /* 배열을 인자로 */
     printf("-----배열을 인자로------\n");
-
     int arr[3] = {1,2,3};
-    print_arr(arr);
+    int (*parr)[3] = &arr;
+    print_arr(parr);
     add_number(arr);
-    print_arr(arr);
+    print_arr(parr); // 원본 배열의 원소는 수정되지 않음
 
-    print_arr_desc(arr);
-    print_arr(arr);
+    /* 배열을 내림차순하여 출력 */
+    print_arr_desc(parr);
+    print_arr(parr);
 
     return 0;
 }
@@ -73,20 +76,20 @@ int add_number(int *arr) {
     return 0;
 }
 
-int print_arr(int *arr) { // 포인터(주소)를 받지 않으면 배열의 다음 원소를 알 수 없다.
+int print_arr(int (*arr)[3]) { // 포인터(주소)를 받지 않으면 배열의 다음 원소를 알 수 없다.
     int i;
     for (i = 0; i < 3; i++)
     {
-        printf("%d,", arr[i]);
+        printf("%d,", (*arr)[i]);
     }
     printf("\n");
     printf("----------------\n");
+    return 0;
 }
 
 int max_number(int (*arr)[3]) {
     int i;
     int max = (*arr)[0];
-    
     // 배열의 원소 개수 = 배열의 총 크기 / 원소의 크기
     for (i = 0; i < sizeof(*arr) / sizeof((*arr)[0]); i++)
     {
@@ -105,7 +108,12 @@ int print_arr_desc(int (*arr)[3]) { // [problem] 배열의 값을 다 복사하�
         temp_arr[i] = (*arr)[i];
     }
     
-    int *selected_arr = temp_arr;
+    /*
+        포인터의 타입은 컴파일 시점에 결정되며, 런타임 동안 수정될 수 없다.
+        따라서 원소를 하나씩 제거하는 함수일 경우 포인터 재사용 불가하다.
+        동적으로 배열의 크기를 정하여 메모리에 할당하고 해지하는 코드를 짜야한다. (malloc)
+    */
+    int (*selected_arr)[3] = &temp_arr;
 
     int j;
     for (j = 3; j > 0; j--)
@@ -124,7 +132,7 @@ int print_arr_desc(int (*arr)[3]) { // [problem] 배열의 값을 다 복사하�
     방안 1) max가 제거되어 새로 초기화한 배열을 반환한다.
     방안 2) max를 0으로 수정한다.
 */
-int* remove_max(int (*arr)[3]) {
+int (*remove_max(int (*arr)[3]))[3] {
     int i;
     for (i = 0; i < 3; i++)
     {
