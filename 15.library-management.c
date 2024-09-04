@@ -30,9 +30,6 @@ int main() {
     char publisher[100][21];
     int is_rent[100] = {0,};
 
-    title[0] = "photo\n";
-    title[1] = "food\n";
-
     int book_number = 0;
     //int index = 0;
 
