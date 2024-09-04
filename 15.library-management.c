@@ -59,7 +59,7 @@ int main() {
                 if(compare(title[i], search_title) == 0) {
                     continue;
                 }
-                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[i], title[i], publisher[i]);
+                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s, 책 번호: %d) \n", author[i], title[i], publisher[i], i);
             }
         }
         else if(selected_menu == 3) {
@@ -71,7 +71,7 @@ int main() {
                 if(compare(author[i], search_author) == 0) {
                     continue;
                 }
-                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[i], title[i], publisher[i]);
+                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s, 책 번호: %d) \n", author[i], title[i], publisher[i], i);
             }
         }
         else if(selected_menu == 4) {
@@ -83,7 +83,7 @@ int main() {
                 if(compare(publisher[i], search_publisher) == 0) {
                     continue;
                 }
-                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[i], title[i], publisher[i]);
+                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s, 책 번호: %d) \n", author[i], title[i], publisher[i], i);
             }
         }
         else if(selected_menu == 5) {
@@ -115,7 +115,7 @@ int add_book(char (*title)[100][21],char (*author)[100][21],char (*publisher)[10
     printf("출판사 이름을 입력해주세요. : \n");
     scanf("%s", (*publisher)[*book_number]);
 
-    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 추가되었습니다. (출판사: %s) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number]);
+    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 추가되었습니다. (출판사: %s, 책 번호: %d) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number], *book_number);
     printf("현재 총 도서 수: %d", *book_number + 1);
     (*book_number)++;
 
@@ -151,7 +151,7 @@ int borrow_book(char (*title)[100][21], char (*author)[100][21],char (*publisher
     }
 
     *is_rent = 1;
-    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 대여했습니다. (출판사: %s) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number]);
+    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 대여했습니다. (출판사: %s, 책 번호: %d) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number], *book_number);
     return 1;
 }
 
@@ -167,6 +167,6 @@ int return_book(char (*title)[100][21], char (*author)[100][21],char (*publisher
     }
 
     *is_rent = 0;
-    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 반납했습니다. (출판사: %s) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number]);
+    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 반납했습니다. (출판사: %s, 책 번호: %d) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number], *book_number);
     return 1;
 }
