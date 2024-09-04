@@ -24,10 +24,16 @@
     4. 책을 빌리는 기능.
     5. 책을 반납하는 기능
 */
+
+int add_book(char (*title)[100][21], char (*author)[100][21], char (*publisher)[100][21], int *book_number);
+int compare(char *original, char *search_string);
+int borrow_book(char (*title)[100][21], char (*author)[100][21], char (*publisher)[100][21], int *is_rent, int *book_number);
+int return_book(char (*title)[100][21], char (*author)[100][21],char (*publisher)[100][21], int *is_rent, int *book_number);
+
 int main() {
-    char title[100][21]; // 최대 20글자의 제목 100개
-    char author[100][21];
-    char publisher[100][21];
+    char title[100][21] = {0,}; // 최대 20글자의 제목 100개
+    char author[100][21] = {0,}; // 0으로 초기화 하지 않으면 더미 데이터 때문에 is_empty 함수 오류 생김
+    char publisher[100][21] = {0,};
     int is_rent[100] = {0,};
 
     int book_number = 0;
@@ -40,134 +46,57 @@ int main() {
         scanf("%d", &selected_menu);
 
         if(selected_menu == 1) {
-            printf("도서 제목을 입력해주세요. : \n");
-            scanf("%s", title[book_number]);
-            //title[book_count][0] = input_book_title; // -> char 배열을 대입할 때는, 스트링을 읽을때와 달리 일일히 대입해주지 않는다.
-            printf("저자 이름을 입력해주세요. : \n");
-            scanf("%s", author[book_number]);
-            printf("출판사 이름을 입력해주세요. : \n");
-            scanf("%s", publisher[book_number]);
-
-            printf("\"%s\" 저자의 도서 \"%s\" 이(가) 추가되었습니다. (출판사: %s) \n", author[book_number], title[book_number], publisher[book_number]);
-            printf("현재 총 도서 수: %d", book_number + 1);
-            book_number++;
+            //char (*p_title)[100][21] = 
+            add_book(&title, &author, &publisher, &book_number);
         }
         else if(selected_menu == 2) {
             char search_title[21];
             printf("도서 제목을 입력해주세요. : \n");
             scanf("%s", search_title);
-            int i;
-            int result_index = -1;
-            for (i = 0; i < 100; i++)
-            {   
-                int j = 0;
-                int bool = 1;
-
-                while (title[i][j])
-                {
-                    if(title[i][j] != search_title[j]) {
-                        printf("title[%d][%d] : %c \n", i, j, title[i][j]);
-                        printf("search_title[%d] : %c \n", j, search_title[j]);
-                        bool = 0;
-                        break;
-                    }
-                    j++;
+            
+            for (int i = 0; i < 100; i++)
+            {
+                if(compare(title[i], search_title) == 0) {
+                    continue;
                 }
-
-                if(bool == 1) {
-                    result_index = i;
-                    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[result_index], title[result_index], publisher[result_index]);
-                    //break; // 여러권 검색
-                }
+                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[i], title[i], publisher[i]);
             }
         }
         else if(selected_menu == 3) {
             char search_author[21];
             printf("저자 이름을 입력해주세요. : \n");
             scanf("%s", search_author);
-            int i;
-            int result_index = -1;
-            for (i = 0; i < 100; i++)
+            for (int i = 0; i < 100; i++)
             {   
-                int j = 0;
-                int bool = 1;
-
-                while (author[i][j])
-                {
-                    if(author[i][j] != search_author[j]) {
-                        printf("author[%d][%d] : %c \n", i, j, author[i][j]);
-                        printf("search_author[%d] : %c \n", j, search_author[j]);
-                        bool = 0;
-                        break;
-                    }
-                    j++;
+                if(compare(author[i], search_author) == 0) {
+                    continue;
                 }
-
-                if(bool == 1) {
-                    result_index = i;
-                    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[result_index], title[result_index], publisher[result_index]);
-                    //break; // 여러권 검색
-                }
+                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[i], title[i], publisher[i]);
             }
         }
         else if(selected_menu == 4) {
             char search_publisher[21];
             printf("출판사 이름을 입력해주세요. : \n");
             scanf("%s", search_publisher);
-            int i;
-            int result_index = -1;
-            for (i = 0; i < 100; i++)
+            for (int i = 0; i < 100; i++)
             {   
-                int j = 0;
-                int bool = 1;
-
-                while (publisher[i][j])
-                {
-                    if(publisher[i][j] != search_publisher[j]) {
-                        printf("publisher[%d][%d] : %c \n", i, j, publisher[i][j]);
-                        printf("search_publisher[%d] : %c \n", j, search_publisher[j]);
-                        bool = 0;
-                        break;
-                    }
-                    j++;
+                if(compare(publisher[i], search_publisher) == 0) {
+                    continue;
                 }
-
-                if(bool == 1) {
-                    result_index = i;
-                    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[result_index], title[result_index], publisher[result_index]);
-                    //break; // 여러권 검색
-                }
+                printf("\"%s\" 저자의 도서 \"%s\" 이(가) 조회되었습니다. (출판사: %s) \n", author[i], title[i], publisher[i]);
             }
         }
         else if(selected_menu == 5) {
             int rent_book_number;
             printf("대여할 도서의 번호를 입력해주세요. : \n");
             scanf("%d", &rent_book_number);
-            if(is_rent[rent_book_number] == 0) {
-                if(title[rent_book_number][0]) {
-                    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 대여했습니다. (출판사: %s) \n", author[rent_book_number], title[rent_book_number], publisher[rent_book_number]);
-                    is_rent[rent_book_number] = 1;
-                } else {
-                    printf("등록되지 않은 도서 번호입니다.");
-                }
-            } else {
-                printf("현재 대여중인 도서입니다.");
-            }
+            borrow_book(&title, &author, &publisher, &is_rent[rent_book_number], &rent_book_number);
         }
         else if(selected_menu == 6) {
             int rent_book_number;
             printf("반납할 도서의 번호를 입력해주세요. : \n");
             scanf("%d", &rent_book_number);
-            if(is_rent[rent_book_number] == 1) {
-                if(title[rent_book_number][0]) {
-                    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 반납했습니다. (출판사: %s) \n", author[rent_book_number], title[rent_book_number], publisher[rent_book_number]);
-                    is_rent[rent_book_number] = 0;
-                } else {
-                    printf("등록되지 않은 도서 번호입니다.");
-                }
-            } else {
-                printf("현재 대여중인 도서가 아닙니다.");
-            }
+            return_book(&title, &author, &publisher, &is_rent[rent_book_number], &rent_book_number);
         }
         else {
             break; // 프로그램 종료.
@@ -176,3 +105,68 @@ int main() {
     
 }
 
+int add_book(char (*title)[100][21],char (*author)[100][21],char (*publisher)[100][21], int *book_number) {
+    printf("도서 제목을 입력해주세요. : \n");
+    scanf("%s", (*title)[*book_number]);
+
+    printf("저자 이름을 입력해주세요. : \n");
+    scanf("%s", (*author)[*book_number]);
+
+    printf("출판사 이름을 입력해주세요. : \n");
+    scanf("%s", (*publisher)[*book_number]);
+
+    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 추가되었습니다. (출판사: %s) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number]);
+    printf("현재 총 도서 수: %d", *book_number + 1);
+    (*book_number)++;
+
+    return 1;
+}
+
+int compare(char *original, char *search_string) {
+    if(!(*original)) { // SOH는 공백이면서도 1인데.. 어떻게 false가 되는거지?
+        return 0;
+    }
+
+    while (*original)
+    {
+        if(*original != *search_string) {
+            return 0;
+        }
+        original++;
+        search_string++;
+    }
+    
+    return 1;
+}
+
+int borrow_book(char (*title)[100][21], char (*author)[100][21],char (*publisher)[100][21], int *is_rent, int *book_number) {
+    if((*title)[*book_number][0] == '\0') {
+        printf("등록되지 않은 도서 번호입니다.");
+        return 0;
+    } 
+    
+    if(*is_rent == 1) {
+        printf("현재 대여중인 도서입니다.");
+        return 0;
+    }
+
+    *is_rent = 1;
+    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 대여했습니다. (출판사: %s) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number]);
+    return 1;
+}
+
+int return_book(char (*title)[100][21], char (*author)[100][21],char (*publisher)[100][21], int *is_rent, int *book_number) {
+    if((*title)[*book_number][0] == '\0') {
+        printf("등록되지 않은 도서 번호입니다.");
+        return 0;
+    } 
+    
+    if(*is_rent == 0) {
+        printf("현재 대여중인 도서가 아닙니다.");
+        return 0;
+    }
+
+    *is_rent = 0;
+    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 반납했습니다. (출판사: %s) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number]);
+    return 1;
+}
