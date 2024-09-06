@@ -25,10 +25,10 @@
     5. 책을 반납하는 기능
 */
 
-int add_book(char (*title)[100][21], char (*author)[100][21], char (*publisher)[100][21], int *book_number);
+int add_book(char (*title)[21], char (*author)[21], char (*publisher)[21], int *book_number);
 int compare(char *original, char *search_string);
-int borrow_book(char (*title)[100][21], char (*author)[100][21], char (*publisher)[100][21], int *is_rent, int *book_number);
-int return_book(char (*title)[100][21], char (*author)[100][21],char (*publisher)[100][21], int *is_rent, int *book_number);
+int borrow_book(char (*title)[21], char (*author)[21], char (*publisher)[21], int *is_rent, int book_number);
+int return_book(char (*title)[21], char (*author)[21],char (*publisher)[21], int *is_rent, int book_number);
 
 int main() {
     char title[100][21] = {0,}; // 최대 20글자의 제목 100개
@@ -47,7 +47,7 @@ int main() {
 
         if(selected_menu == 1) {
             //char (*p_title)[100][21] = 
-            add_book(&title, &author, &publisher, &book_number);
+            add_book(title, author, publisher, &book_number);
         }
         else if(selected_menu == 2) {
             char search_title[21];
@@ -90,13 +90,13 @@ int main() {
             int rent_book_number;
             printf("대여할 도서의 번호를 입력해주세요. : \n");
             scanf("%d", &rent_book_number);
-            borrow_book(&title, &author, &publisher, &is_rent[rent_book_number], &rent_book_number);
+            borrow_book(title, author, publisher, is_rent, rent_book_number);
         }
         else if(selected_menu == 6) {
             int rent_book_number;
             printf("반납할 도서의 번호를 입력해주세요. : \n");
             scanf("%d", &rent_book_number);
-            return_book(&title, &author, &publisher, &is_rent[rent_book_number], &rent_book_number);
+            return_book(title, author, publisher, is_rent, rent_book_number);
         }
         else {
             break; // 프로그램 종료.
@@ -105,17 +105,17 @@ int main() {
     
 }
 
-int add_book(char (*title)[100][21],char (*author)[100][21],char (*publisher)[100][21], int *book_number) {
+int add_book(char (*title)[21],char (*author)[21],char (*publisher)[21], int *book_number) {
     printf("도서 제목을 입력해주세요. : \n");
-    scanf("%s", (*title)[*book_number]);
+    scanf("%s", title[*book_number]);
 
     printf("저자 이름을 입력해주세요. : \n");
-    scanf("%s", (*author)[*book_number]);
+    scanf("%s", author[*book_number]);
 
     printf("출판사 이름을 입력해주세요. : \n");
-    scanf("%s", (*publisher)[*book_number]);
+    scanf("%s", publisher[*book_number]);
 
-    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 추가되었습니다. (출판사: %s, 책 번호: %d) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number], *book_number);
+    printf("\"%s\" 저자의 도서 \"%s\" 이(가) 추가되었습니다. (출판사: %s, 책 번호: %d) \n", author[*book_number], title[*book_number], publisher[*book_number], *book_number);
     printf("현재 총 도서 수: %d", *book_number + 1);
     (*book_number)++;
 
@@ -139,34 +139,34 @@ int compare(char *original, char *search_string) {
     return 1;
 }
 
-int borrow_book(char (*title)[100][21], char (*author)[100][21],char (*publisher)[100][21], int *is_rent, int *book_number) {
-    if((*title)[*book_number][0] == '\0') {
+int borrow_book(char (*title)[21], char (*author)[21], char (*publisher)[21], int *is_rent, int book_number) {
+    if(title[book_number][0] == '\0') {
         printf("등록되지 않은 도서 번호입니다.");
         return 0;
     } 
     
-    if(*is_rent == 1) {
+    if(is_rent[book_number] == 1) {
         printf("현재 대여중인 도서입니다.");
         return 0;
     }
 
-    *is_rent = 1;
-    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 대여했습니다. (출판사: %s, 책 번호: %d) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number], *book_number);
+    is_rent[book_number] = 1;
+    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 대여했습니다. (출판사: %s, 책 번호: %d) \n", author[book_number], title[book_number], publisher[book_number], book_number);
     return 1;
 }
 
-int return_book(char (*title)[100][21], char (*author)[100][21],char (*publisher)[100][21], int *is_rent, int *book_number) {
-    if((*title)[*book_number][0] == '\0') {
+int return_book(char (*title)[21], char (*author)[21], char (*publisher)[21], int *is_rent, int book_number) {
+    if(title[book_number][0] == '\0') {
         printf("등록되지 않은 도서 번호입니다.");
         return 0;
     } 
     
-    if(*is_rent == 0) {
+    if(is_rent[book_number] == 0) {
         printf("현재 대여중인 도서가 아닙니다.");
         return 0;
     }
 
-    *is_rent = 0;
-    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 반납했습니다. (출판사: %s, 책 번호: %d) \n", (*author)[*book_number], (*title)[*book_number], (*publisher)[*book_number], *book_number);
+    is_rent[book_number] = 0;
+    printf("\"%s\" 저자의 도서 \"%s\" 을(를) 반납했습니다. (출판사: %s, 책 번호: %d) \n", author[book_number], title[book_number], publisher[book_number], book_number);
     return 1;
 }
