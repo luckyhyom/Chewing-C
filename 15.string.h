@@ -1,0 +1,1 @@
+int compare(char *original, char *search_string);

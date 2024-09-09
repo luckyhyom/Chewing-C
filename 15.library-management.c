@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include "15.string.h"
+#include "15.book-function.h"
 
 /*
     배운 것
@@ -24,11 +26,6 @@
     4. 책을 빌리는 기능.
     5. 책을 반납하는 기능
 */
-
-int add_book(char (*title)[21], char (*author)[21], char (*publisher)[21], int *book_number);
-int compare(char *original, char *search_string);
-int borrow_book(char (*title)[21], char (*author)[21], char (*publisher)[21], int *is_rent, int book_number);
-int return_book(char (*title)[21], char (*author)[21],char (*publisher)[21], int *is_rent, int book_number);
 
 int main() {
     char title[100][21] = {0,}; // 최대 20글자의 제목 100개
