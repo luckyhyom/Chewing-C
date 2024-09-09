@@ -10,11 +10,11 @@
     2. 보통 소스파일의 이름을 따서 만든다. (src.c -> src.h)
 */
 #include <stdio.h>
-#include "19-3.string.h"
+#include "19-2.string.c"
 
 int main() {
-    char str1[20] = "ABCD";
-    char str2[20] = "ABCD";
+    char *str1 = "ABCD";
+    char *str2 = "ABCD";
 
     printf("문자열 A : ");
     scanf("%s", str1);
@@ -26,18 +26,5 @@ int main() {
     } else {
         printf("%s 와 %s 는 다른 문장 입니다. \n", str1, str2);
     }
-    return 0;
-}
-
-
-char compare(char *str1, char *str2) {
-    while (*str1) {
-        if (*str1 != *str2) {
-            return 0;
-        }
-        str1++;
-        str2++; 
-    }
-    if (*str2 == '\0') return 1;
     return 0;
 }
