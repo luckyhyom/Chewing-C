@@ -1,0 +1,1 @@
+int copy_str(char *ori, char *copy);
