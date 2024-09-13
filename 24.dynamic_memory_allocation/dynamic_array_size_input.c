@@ -26,14 +26,15 @@
         내부 단편화: 할당된 메모리 블록이 실제로 필요한 크기보다 커서 사용되지 않는 공간이 발생하는 현상
  */
 int main() {
-    int arr_size = 1;
+    int arr_size;
     printf("배열의 크기 입력 : \n");
-    scanf("배열의 크기 입력 : \n");
+    scanf("%d", &arr_size);
 
-    int arr[arr_size] = { 0, };
+    int arr[arr_size];
 
-    for (int i = 0; i < i; i++)
+    for (int i = 0; i < arr_size; i++)
     {
+        arr[i] = i;
         printf("%d \n", arr[i]);
     }
     
