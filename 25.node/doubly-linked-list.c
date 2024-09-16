@@ -30,8 +30,8 @@ struct Node* create_node(int data){
     struct Node *new_node;
     new_node = (struct Node *)malloc(sizeof(struct Node));
     new_node->data = data;
-    new_node->prev_node = NULL;
-    new_node->next_node = NULL;
+    new_node->prev_node = new_node;
+    new_node->next_node = new_node;
     return new_node;
 }
 
@@ -55,8 +55,9 @@ void delete_node(struct Node* node){
 }
 
 void print_node(struct Node* from){
-    struct Node* next = from;
-    while (next)
+    printf("%d ", from->data);
+    struct Node* next = from->next_node;
+    while (next != from)
     {
         printf("%d ", next->data);
         next = next->next_node;
@@ -65,9 +66,9 @@ void print_node(struct Node* from){
 }
 
 int count_node(struct Node* head){
-    int count = 0;
-    struct Node* next = head;
-    while (next)
+    int count = 1;
+    struct Node* next = head->next_node;
+    while (next != head)
     {
         next = next->next_node;
         count++;
